@@ -1,0 +1,16 @@
+{
+  "name": "arc-cockpit",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ARC CRM management analytics cockpit: mock GraphQL server + React web app",
+  "workspaces": ["server", "web"],
+  "scripts": {
+    "dev": "npm run dev --workspace server & npm run dev --workspace web",
+    "dev:server": "npm run dev --workspace server",
+    "dev:web": "npm run dev --workspace web",
+    "codegen": "npm run codegen --workspace web",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test --workspace server",
+    "build": "npm run build --workspaces"
+  }
+}

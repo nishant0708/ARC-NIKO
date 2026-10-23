@@ -1,0 +1,8 @@
+[
+  { "statusReason": "WON",          "group": "WON",      "countsAsWonGP": true,  "openForecast": false, "winRateDenominator": true,  "note": "Achieved GP uses actual GP and actual close date." },
+  { "statusReason": "LOST",         "group": "LOST",     "countsAsWonGP": false, "openForecast": false, "winRateDenominator": true,  "note": "Lost GP is shown at estimate only." },
+  { "statusReason": "In Progress",  "group": "OPEN",     "countsAsWonGP": false, "openForecast": true,  "winRateDenominator": false, "note": "Eligible for open forecast." },
+  { "statusReason": "On Hold",      "group": "EXCLUDED", "countsAsWonGP": false, "openForecast": false, "winRateDenominator": false, "note": "Excluded from forecast until reactivated." },
+  { "statusReason": "CANCELLED",    "group": "EXCLUDED", "countsAsWonGP": false, "openForecast": false, "winRateDenominator": false, "note": "Left out of win rate. Treatment pending ARC sign-off." },
+  { "statusReason": "DISQUALIFIED", "group": "EXCLUDED", "countsAsWonGP": false, "openForecast": false, "winRateDenominator": false, "note": "Left out of win rate. Treatment pending ARC sign-off." }
+]

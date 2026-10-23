@@ -1,0 +1,506 @@
+[
+ {
+  "goalId": "GOAL-2026-Q1-ABDULHADIMOH",
+  "owner": "Abdul Hadi Mohammed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 534544,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-ABDULHADIMOH",
+  "owner": "Abdul Hadi Mohammed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 597431,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-ABDULHADIMOH",
+  "owner": "Abdul Hadi Mohammed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 628875,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-ABDULHADIMOH",
+  "owner": "Abdul Hadi Mohammed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 691762,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-ALTAFMALIK",
+  "owner": "Altaf Malik",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 522112,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-ALTAFMALIK",
+  "owner": "Altaf Malik",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 583538,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-ALTAFMALIK",
+  "owner": "Altaf Malik",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 614250,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-ALTAFMALIK",
+  "owner": "Altaf Malik",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 675675,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-ANILMISRI",
+  "owner": "Anil Misri",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 621562,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-ANILMISRI",
+  "owner": "Anil Misri",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 694688,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-ANILMISRI",
+  "owner": "Anil Misri",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 731250,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-ANILMISRI",
+  "owner": "Anil Misri",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 804375,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-ERUMFARAZ",
+  "owner": "Erum Faraz",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 621562,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-ERUMFARAZ",
+  "owner": "Erum Faraz",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 694688,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-ERUMFARAZ",
+  "owner": "Erum Faraz",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 731250,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-ERUMFARAZ",
+  "owner": "Erum Faraz",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 804375,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-FERASAMASHA",
+  "owner": "Feras Amasha",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 571838,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-FERASAMASHA",
+  "owner": "Feras Amasha",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 639112,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-FERASAMASHA",
+  "owner": "Feras Amasha",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 672750,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-FERASAMASHA",
+  "owner": "Feras Amasha",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 740025,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-JALALMOUATI",
+  "owner": "Jalal Mouati",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 596700,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-JALALMOUATI",
+  "owner": "Jalal Mouati",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 666900,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-JALALMOUATI",
+  "owner": "Jalal Mouati",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 702000,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-JALALMOUATI",
+  "owner": "Jalal Mouati",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 772200,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-MATHEWIDICUL",
+  "owner": "Mathew Idicula",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 682078,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-MATHEWIDICUL",
+  "owner": "Mathew Idicula",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 762323,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-MATHEWIDICUL",
+  "owner": "Mathew Idicula",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 802445,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-MATHEWIDICUL",
+  "owner": "Mathew Idicula",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 882690,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-MOHAMMEDEHTE",
+  "owner": "Mohammed Ehtesham",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 546975,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-MOHAMMEDEHTE",
+  "owner": "Mohammed Ehtesham",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 611325,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-MOHAMMEDEHTE",
+  "owner": "Mohammed Ehtesham",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 643500,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-MOHAMMEDEHTE",
+  "owner": "Mohammed Ehtesham",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 707850,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-MOHAMMEDFUZA",
+  "owner": "Mohammed Fuzail",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 522112,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-MOHAMMEDFUZA",
+  "owner": "Mohammed Fuzail",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 583538,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-MOHAMMEDFUZA",
+  "owner": "Mohammed Fuzail",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 614250,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-MOHAMMEDFUZA",
+  "owner": "Mohammed Fuzail",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 675675,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-MOHAMMEDSAJI",
+  "owner": "Mohammed Sajid Ali",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 1530000,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-MOHAMMEDSAJI",
+  "owner": "Mohammed Sajid Ali",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 1710000,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-MOHAMMEDSAJI",
+  "owner": "Mohammed Sajid Ali",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 1800000,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-MOHAMMEDSAJI",
+  "owner": "Mohammed Sajid Ali",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 1980000,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-MUHAMMADBASI",
+  "owner": "Muhammad Basit",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 447525,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-MUHAMMADBASI",
+  "owner": "Muhammad Basit",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 500175,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-MUHAMMADBASI",
+  "owner": "Muhammad Basit",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 526500,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-MUHAMMADBASI",
+  "owner": "Muhammad Basit",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 579150,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-RAKHESHNAIR",
+  "owner": "Rakhesh Nair",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 438201,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-RAKHESHNAIR",
+  "owner": "Rakhesh Nair",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 489754,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-RAKHESHNAIR",
+  "owner": "Rakhesh Nair",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 515531,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-RAKHESHNAIR",
+  "owner": "Rakhesh Nair",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 567084,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-SYEDRAFIQAHM",
+  "owner": "Syed Rafiq Ahmed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 639240,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-SYEDRAFIQAHM",
+  "owner": "Syed Rafiq Ahmed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 714445,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-SYEDRAFIQAHM",
+  "owner": "Syed Rafiq Ahmed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 752047,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-SYEDRAFIQAHM",
+  "owner": "Syed Rafiq Ahmed",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 827252,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q1-WILFREDDSOUZ",
+  "owner": "Wilfred Dsouza",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q1",
+  "targetAED": 596700,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q2-WILFREDDSOUZ",
+  "owner": "Wilfred Dsouza",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q2",
+  "targetAED": 666900,
+  "source": "Sample goal for demo (not an ARC figure)"
+ },
+ {
+  "goalId": "GOAL-2026-Q3-WILFREDDSOUZ",
+  "owner": "Wilfred Dsouza",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q3",
+  "targetAED": 702000,
+  "source": "PILOT Q3 goal export"
+ },
+ {
+  "goalId": "GOAL-2026-Q4-WILFREDDSOUZ",
+  "owner": "Wilfred Dsouza",
+  "metric": "Actual GP",
+  "fiscalYear": 2026,
+  "quarter": "Q4",
+  "targetAED": 772200,
+  "source": "Sample goal for demo (not an ARC figure)"
+ }
+]

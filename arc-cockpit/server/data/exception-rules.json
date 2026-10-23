@@ -1,0 +1,7 @@
+[
+  { "id": "E01", "name": "Missing estimated close date", "sourceField": "estimatedclosedate",  "severity": "HIGH",   "appliesTo": "Open opportunities" },
+  { "id": "E02", "name": "Missing probability",          "sourceField": "closeprobability",    "severity": "MEDIUM", "appliesTo": "Open opportunities" },
+  { "id": "E03", "name": "Overdue open deal",            "sourceField": "estimatedclosedate",  "severity": "HIGH",   "appliesTo": "Open opportunities with estimated close before the as-of date" },
+  { "id": "E04", "name": "Unmapped client manager",      "sourceField": "emitac_clientmanager","severity": "HIGH",   "appliesTo": "Any opportunity whose client manager is not in the manager directory" },
+  { "id": "E05", "name": "Won deal without actual GP",   "sourceField": "emitac_actualgp",     "severity": "MEDIUM", "appliesTo": "Won opportunities" }
+]

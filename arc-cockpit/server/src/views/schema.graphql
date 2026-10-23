@@ -1,0 +1,324 @@
+"""
+ARC cockpit read API. Mirrors the shape the Airgen ERP GraphQL API will expose.
+All KPI values are computed by the server's governed model; the client only displays them.
+"""
+type Query {
+  options: Options!
+  executive(filters: FiltersInput!): Executive!
+  clientManagers(filters: FiltersInput!): ClientManagersView!
+  pipeline(filters: FiltersInput!): PipelineView!
+  cm360(filters: FiltersInput!): Cm360View
+  exceptions(filters: FiltersInput!, severity: Severity, ruleId: String): ExceptionsView!
+  drill(input: DrillInput!): DrillResult!
+  targets(filters: FiltersInput!): TargetDrill!
+  opportunity(guid: ID!): Opportunity
+}
+
+input FiltersInput {
+  "Fiscal period id, e.g. 2026-Q3 or 2026-FY"
+  period: String!
+  clientManager: String
+  vertical: String
+  search: String
+}
+
+enum Severity {
+  HIGH
+  MEDIUM
+}
+
+enum StatusGroup {
+  WON
+  LOST
+  OPEN
+  EXCLUDED
+}
+
+"How a field is known for this record. The UI never invents a value."
+enum RecordStatus {
+  RECORDED
+  NOT_RECORDED
+  NOT_PRODUCIBLE
+  NOT_APPLICABLE
+}
+
+type Scope {
+  periodLabel: String!
+  governingDate: String!
+  recordCount: Int!
+  exclusions: [String!]!
+  asOf: String!
+  note: String
+}
+
+type Measure {
+  value: Float!
+  count: Int!
+  scope: Scope!
+}
+
+type TargetMeasure {
+  "Null when no goal record exists for the scope"
+  value: Float
+  managerCount: Int!
+  goalCount: Int!
+  scope: Scope!
+}
+
+type Gap {
+  "Target minus achieved; negative means exceeded. Null without a target."
+  value: Float
+  exceeded: Boolean!
+  attainment: Float
+}
+
+type Bucket {
+  key: String!
+  label: String!
+  value: Float!
+  count: Int!
+  flag: String
+}
+
+type MonthPoint {
+  month: String!
+  label: String!
+  value: Float!
+  count: Int!
+  inPeriod: Boolean!
+  afterAsOf: Boolean!
+}
+
+type Warning {
+  kind: String!
+  title: String!
+  message: String!
+}
+
+type Options {
+  asOf: String!
+  asOfIso: String!
+  source: String!
+  currency: String!
+  defaultPeriod: String!
+  periods: [PeriodOption!]!
+  clientManagers: [ManagerOption!]!
+  verticals: [String!]!
+}
+
+type PeriodOption {
+  id: String!
+  label: String!
+}
+
+type ManagerOption {
+  name: String!
+  mapped: Boolean!
+}
+
+type Executive {
+  periodLabel: String!
+  asOf: String!
+  target: TargetMeasure!
+  achieved: Measure!
+  gap: Gap!
+  openForecast: Measure!
+  undated: Measure!
+  overdue: Measure!
+  warnings: [Warning!]!
+  achievedByMonth: [MonthPoint!]!
+  openByCloseMonth: [Bucket!]!
+  achievedByVertical: [Bucket!]!
+  openByCategory: [Bucket!]!
+  closedOutcomes: [Bucket!]!
+}
+
+type ClientManagerRow {
+  name: String!
+  mapped: Boolean!
+  target: Float
+  achieved: Float!
+  openGP: Float!
+  gap: Float
+  winRate: Float
+  won: Int!
+  lost: Int!
+  exceptionCount: Int!
+  opportunityCount: Int!
+}
+
+type ClientManagersView {
+  scope: Scope!
+  rows: [ClientManagerRow!]!
+  opportunityCount: Int!
+  ownerDiffersCount: Int!
+}
+
+type PipelineView {
+  openGP: Measure!
+  weightedOpenGP: Measure!
+  missingProbability: Int!
+  undated: Measure!
+  overdue: Measure!
+  byStage: [Bucket!]!
+  byCloseMonth: [Bucket!]!
+  byCategory: [Bucket!]!
+  opportunities: [Opportunity!]!
+}
+
+type TrendPoint {
+  month: String!
+  label: String!
+  won: Int!
+  lost: Int!
+  afterAsOf: Boolean!
+}
+
+type Cm360View {
+  clientManager: String!
+  mapped: Boolean!
+  opportunityCount: Int!
+  periodLabel: String!
+  asOf: String!
+  target: TargetMeasure!
+  achieved: Measure!
+  gap: Gap!
+  openForecast: Measure!
+  weightedOpen: Measure!
+  won: Measure!
+  "value = lost-at-estimate GP (an estimate, never realised GP); count = lost deals"
+  lost: Measure!
+  winRate: Float
+  winRateExcludedCount: Int!
+  winRateTreatment: String!
+  medianSalesCycleDays: Float
+  salesCycleSample: Int!
+  trend: [TrendPoint!]!
+  deals: [Opportunity!]!
+}
+
+type ExceptionRule {
+  id: String!
+  name: String!
+  sourceField: String!
+  severity: Severity!
+  appliesTo: String!
+}
+
+type ExceptionItem {
+  id: ID!
+  rule: ExceptionRule!
+  severity: Severity!
+  opportunity: Opportunity!
+  gpExposure: Float
+  asOf: String!
+}
+
+type SeverityCount {
+  severity: Severity!
+  count: Int!
+}
+
+type RuleCount {
+  rule: ExceptionRule!
+  count: Int!
+}
+
+type ExceptionsView {
+  asOf: String!
+  total: Int!
+  filteredTotal: Int!
+  gpExposure: Float!
+  bySeverity: [SeverityCount!]!
+  byRule: [RuleCount!]!
+  rules: [ExceptionRule!]!
+  items: [ExceptionItem!]!
+}
+
+type RecordedText {
+  value: String
+  status: RecordStatus!
+}
+
+type Opportunity {
+  guid: ID!
+  opportunityId: String!
+  account: String!
+  clientManager: String!
+  clientManagerMapped: Boolean!
+  owner: String
+  createdOn: String
+  estimatedClose: String
+  actualClose: String
+  statusReason: String!
+  statusGroup: StatusGroup!
+  stage: String!
+  forecastCategory: String
+  probability: Float
+  estimatedGP: Float
+  actualGP: Float
+  vertical: String
+  salesCycleDays: Int
+  flags: [String!]!
+  lossReason: RecordedText!
+  competitor: RecordedText!
+  stageAtLoss: RecordedText!
+}
+
+enum DrillMeasure {
+  ACHIEVED_GP
+  OPEN_FORECAST_GP
+  WEIGHTED_OPEN_GP
+  UNDATED_OPEN
+  OVERDUE_OPEN
+  LOST_DEALS
+  CLOSED_DEALS
+}
+
+enum DrillGroup {
+  MONTH
+  CLOSE_MONTH
+  VERTICAL
+  FORECAST_CATEGORY
+  STAGE
+  OUTCOME
+}
+
+input DrillInput {
+  filters: FiltersInput!
+  measure: DrillMeasure!
+  groupBy: DrillGroup
+  bucket: String
+}
+
+type DrillResult {
+  title: String!
+  governingDate: String!
+  amountLabel: String!
+  total: Float!
+  scope: Scope!
+  rows: [DrillRow!]!
+}
+
+"One record behind a figure, with the amount and governing date that the figure used."
+type DrillRow {
+  amount: Float
+  governingDateValue: String
+  opportunity: Opportunity!
+}
+
+type GoalRow {
+  goalId: String!
+  owner: String!
+  quarter: String!
+  fiscalYear: Int!
+  metric: String!
+  targetAED: Float!
+  source: String!
+}
+
+type TargetDrill {
+  total: Float
+  scope: Scope!
+  rows: [GoalRow!]!
+}
