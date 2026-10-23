@@ -24,6 +24,8 @@ export interface OpportunityRecord {
   estimatedGP: number | null; // estimatedvalue is GP, not revenue
   actualGP: number | null; // emitac_actualgp
   vertical: string | null;
+  lossReason?: string | null; // only when the source records it
+  competitor?: string | null;
 }
 
 /** An opportunity after the governed status and manager rules are applied. */
@@ -35,7 +37,7 @@ export interface Opportunity extends OpportunityRecord {
 export interface Goal {
   goalId: string;
   owner: string;
-  metric: 'Actual GP';
+  metric: 'Actual GP' | 'Pre-Sales Actual GP';
   fiscalYear: number;
   quarter: Quarter;
   targetAED: number;

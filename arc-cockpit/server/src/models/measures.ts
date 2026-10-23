@@ -109,7 +109,7 @@ export function target(repo: Repository, managers: string[], p: Period): { value
     value: goals.length ? sum(goals, (g) => g.targetAED) : null,
     goals,
     managers: mgrs,
-    scope: scope(repo, p, 'Goal fiscal period', goals.length, EXCL.target, goals.some((g) => !g.source.startsWith('PILOT')) ? 'Includes sample goals for the demo' : undefined),
+    scope: scope(repo, p, 'Goal fiscal period', goals.length, EXCL.target, goals.some((g) => /sample/i.test(g.source)) ? 'Includes sample goals for the demo' : undefined),
   };
 }
 

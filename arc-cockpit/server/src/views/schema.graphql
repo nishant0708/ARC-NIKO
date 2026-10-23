@@ -99,6 +99,13 @@ type Options {
   asOf: String!
   asOfIso: String!
   source: String!
+  "file = PILOT export files; airgen = live Airgen ERP"
+  sourceKind: String!
+  loadedAt: String!
+  "True when any goal row is a sample value rather than an ARC figure"
+  sampleTargets: Boolean!
+  "Data-loading problems the user should know about (unmapped fields, unknown statuses, failed refresh)"
+  warnings: [String!]!
   currency: String!
   defaultPeriod: String!
   periods: [PeriodOption!]!

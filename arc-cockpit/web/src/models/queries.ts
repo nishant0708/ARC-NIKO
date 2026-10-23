@@ -78,6 +78,10 @@ export const OPTIONS_QUERY = graphql(`
       asOf
       asOfIso
       source
+      sourceKind
+      loadedAt
+      sampleTargets
+      warnings
       currency
       defaultPeriod
       periods {

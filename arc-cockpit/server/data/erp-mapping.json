@@ -1,0 +1,61 @@
+{
+  "_readme": "The cockpit reads only the ARC '- niko' tables listed here. If a table is missing from the ERP, cannot be read or has no records, the server stops with an error; it never falls back to other tables. For each cockpit field the first ERP field with a value wins. cmId and accountId are resolved to names through the client manager and account tables. Run `npm run erp:discover` to see the ERP's real fields.",
+  "opportunities": {
+    "tool": "find_many_arc_opportunities",
+    "table": "ARC Opportunity - niko",
+    "fields": {
+      "guid": ["opportunityId"],
+      "opportunityId": ["name"],
+      "account": ["accountId"],
+      "clientManager": ["cmId"],
+      "owner": [],
+      "createdOn": ["createdDate"],
+      "estimatedClose": ["estCloseDate"],
+      "actualClose": ["actualCloseDate"],
+      "statusReason": ["status"],
+      "stage": ["stage"],
+      "forecastCategory": ["forecastCategory"],
+      "probability": ["probability"],
+      "estimatedGP": ["estGp"],
+      "actualGP": ["actualGp"],
+      "vertical": [],
+      "lossReason": ["lostReason"],
+      "competitor": []
+    }
+  },
+  "goals": {
+    "tool": "find_many_arc_gp_targets",
+    "table": "ARC GP Target - niko",
+    "fields": {
+      "guid": ["crmGuid", "id"],
+      "name": ["name"],
+      "owner": ["cmId", "clientManager"],
+      "metric": ["goalMetric"],
+      "fiscalYear": ["fiscalYear"],
+      "quarter": ["fiscalPeriod"],
+      "goalStart": ["goalStart"],
+      "targetAED": ["gpTarget"],
+      "source": ["targetSource"]
+    }
+  },
+  "clientManagers": {
+    "tool": "find_many_arc_client_managers",
+    "table": "ARC Client Manager - niko",
+    "fields": {
+      "name": ["name"],
+      "keys": ["id", "cmId"],
+      "team": ["team"],
+      "status": ["status"],
+      "isTest": []
+    }
+  },
+  "accounts": {
+    "tool": "find_many_arc_accounts",
+    "table": "ARC Account - niko",
+    "fields": {
+      "name": ["name"],
+      "keys": ["id", "accountId"],
+      "vertical": ["vertical"]
+    }
+  }
+}

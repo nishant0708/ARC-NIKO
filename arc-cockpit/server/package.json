@@ -8,7 +8,8 @@
     "start": "tsx src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "build": "tsc --noEmit"
+    "build": "tsc --noEmit",
+    "erp:discover": "tsx src/scripts/erpDiscover.ts"
   },
   "dependencies": {
     "graphql": "^16.11.0",

@@ -11,7 +11,11 @@ export function options() {
   return {
     asOf: formatAsOf(repo.config.asOf),
     asOfIso: repo.config.asOf,
-    source: repo.config.source,
+    source: repo.source.label,
+    sourceKind: repo.source.kind,
+    loadedAt: repo.source.loadedAt,
+    sampleTargets: repo.hasSampleGoals,
+    warnings: repo.source.warnings,
     currency: repo.config.currency,
     defaultPeriod: `${repo.config.fiscalYear}-Q${q}`,
     periods: periodsFor(repo.config.fiscalYear).map((p) => ({ id: p.id, label: p.label })),

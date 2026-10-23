@@ -56,9 +56,9 @@ export function presentOpportunity(o: Opportunity, repo: Repository) {
     vertical: o.vertical,
     salesCycleDays: salesCycleDays(o),
     flags: opportunityFlags(o, repo.config.asOf),
-    // The PILOT export has no loss reason or competitor fields; stage at loss needs snapshot history.
-    lossReason: { value: null, status: closedLost ? 'NOT_RECORDED' : 'NOT_APPLICABLE' },
-    competitor: { value: null, status: 'NOT_RECORDED' },
+    // Loss reason and competitor are shown when the source has them; stage at loss needs snapshot history.
+    lossReason: o.lossReason ? { value: o.lossReason, status: 'RECORDED' } : { value: null, status: closedLost ? 'NOT_RECORDED' : 'NOT_APPLICABLE' },
+    competitor: o.competitor ? { value: o.competitor, status: 'RECORDED' } : { value: null, status: 'NOT_RECORDED' },
     stageAtLoss: { value: null, status: closedLost ? 'NOT_PRODUCIBLE' : 'NOT_APPLICABLE' },
   };
 }

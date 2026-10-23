@@ -59,8 +59,12 @@ export function AppShell() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            {data && <Badge>Data as of {data.options.asOf}</Badge>}
-            <Badge variant="medium">Targets: sample goals</Badge>
+            {data && (
+              <Badge title={data.options.source}>
+                {data.options.sourceKind === 'airgen' ? 'Live: Airgen ERP' : 'PILOT export'} · as of {data.options.asOf}
+              </Badge>
+            )}
+            {data?.options.sampleTargets && <Badge variant="medium">Targets include sample goals</Badge>}
             <Button variant="outline" size="sm" onClick={toggle} aria-pressed={theme === 'dark'}>
               {theme === 'dark' ? <SunIcon aria-hidden /> : <MoonIcon aria-hidden />}
               Dark mode
@@ -77,6 +81,20 @@ export function AppShell() {
         <div className="px-6 pb-4">
           <FilterBar />
         </div>
+        {data && data.options.warnings.length > 0 && (
+          <div className="px-6 pb-4">
+            <details className="rounded-xl border border-[var(--warn-border)] bg-[var(--warn-bg)] px-3.5 py-2.5 text-[13px] text-[var(--warn-fg)]">
+              <summary className="cursor-pointer font-semibold">
+                Data loading notes ({data.options.warnings.length}) · loaded {new Date(data.options.loadedAt).toLocaleString()}
+              </summary>
+              <ul className="mt-2 list-disc space-y-1 pl-5">
+                {data.options.warnings.map((w) => (
+                  <li key={w}>{w}</li>
+                ))}
+              </ul>
+            </details>
+          </div>
+        )}
       </header>
 
       <div className="flex flex-wrap items-start">
