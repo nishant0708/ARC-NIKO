@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "build": "tsc --noEmit",
-    "erp:discover": "tsx src/scripts/erpDiscover.ts"
+    "erp:discover": "tsx src/scripts/erpDiscover.ts",
+    "user:add": "tsx src/scripts/userAdd.ts"
   },
   "dependencies": {
     "graphql": "^16.11.0",

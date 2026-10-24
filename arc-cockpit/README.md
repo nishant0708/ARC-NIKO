@@ -65,21 +65,24 @@ npm run ui:add -- tooltip      # same as: npx shadcn@latest add tooltip
 
 Check new files for `lucide-react` imports before committing; replace any with `@radix-ui/react-icons`.
 
-## Deploy on a VM (Debian 12)
+## Deploy on a VM (no sudo needed)
 
-nginx serves the built web app and passes `/graphql` to the Node server, which runs as a systemd service on `127.0.0.1:4000`. Everyone must log in (nginx password), and HTTPS comes from Let's Encrypt. Files are in `deploy/`.
+On the VM the Node server does everything on one port (default 8080): it serves the built web app, answers `/graphql`, and asks for a login. Node.js goes into `~/.local/node`, so nothing needs root. Files are in `deploy/`.
 
-1. In GCP, allow HTTP and HTTPS traffic to the VM (VM → Edit → Firewalls).
-2. On the VM, clone the repo into `/opt` and run the setup script:
-   ```bash
-   sudo apt-get update && sudo apt-get install -y git
-   sudo git clone https://github.com/nishant0708/ARC-NIKO.git /opt/arc-niko
-   sudo bash /opt/arc-niko/arc-cockpit/deploy/setup.sh
-   ```
-   It asks for the domain (default `<ip>.sslip.io`, which needs no DNS setup), an email for the certificate, the ERP URL and key (saved to `server/.env`, readable only by the service) and a cockpit username and password.
-3. To deploy new code later: push to GitHub, then on the VM `sudo bash /opt/arc-niko/arc-cockpit/deploy/update.sh`.
+```bash
+git clone https://github.com/nishant0708/ARC-NIKO.git      # into your home folder
+bash ~/ARC-NIKO/arc-cockpit/deploy/setup.sh
+```
 
-Logs: `sudo journalctl -u arc-cockpit -f`. Add a user: `sudo htpasswd -B /etc/nginx/arc-cockpit.htpasswd <name>`. Change the ERP key: edit `server/.env`, then `sudo systemctl restart arc-cockpit`.
+The setup asks for the ERP URL and key (saved to `server/.env`, readable only by you), the port, and a cockpit username and password (saved hashed in `server/users.txt`). It installs, runs the tests, builds the web app, starts the server and adds a crontab `@reboot` line so the server starts again after a reboot. If the server stops, it is restarted after 15 seconds.
+
+Opening it:
+- **Now, without changing any firewall:** on your laptop run `ssh -N -L 8080:localhost:8080 <you>@<VM IP>` and open http://localhost:8080.
+- **As a direct link** (`http://<VM IP>:8080`): a GCP firewall rule must allow TCP 8080 to the VM. Limit the source to your office IP: without HTTPS the password crosses the internet unencrypted.
+
+Day to day (`bash ~/ARC-NIKO/arc-cockpit/deploy/cockpit.sh ...`): `status`, `logs`, `restart`, `stop`, `adduser <name>`. To deploy new code: push to GitHub, then `bash ~/ARC-NIKO/arc-cockpit/deploy/update.sh`.
+
+The server refuses to listen on a public address (`HOST=0.0.0.0`) unless at least one login exists. After 10 failed logins an address is locked out for 15 minutes.
 
 ## Structure (MVC)
 

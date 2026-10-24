@@ -1,118 +1,96 @@
 #!/usr/bin/env bash
-# One-time setup of the ARC cockpit on a Debian 12 VM.
-#   nginx (HTTPS + password) -> web/dist (static) and /graphql -> Node server on 127.0.0.1:4000 (systemd)
+# One-time setup of the ARC cockpit on a Linux VM, as your normal user. No sudo, no root:
+#   - Node.js 22 goes into ~/.local/node
+#   - the Node server serves the web app and /graphql on one port (default 8080), with its own login
+#   - deploy/cockpit.sh keeps it running (restarts on crash) and a crontab @reboot line starts it after a reboot
 #
-# Run from the cloned repo, as a user with sudo:
-#   sudo bash arc-cockpit/deploy/setup.sh
-# Safe to run again: every step checks what is already there.
+#   bash ~/ARC-NIKO/arc-cockpit/deploy/setup.sh
+# Safe to run again.
 set -euo pipefail
+if [[ $EUID -eq 0 ]]; then echo "Run this as your normal user, not root or sudo."; exit 1; fi
 
-if [[ $EUID -ne 0 ]]; then echo "Run with sudo: sudo bash $0"; exit 1; fi
+COCKPIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+NODE_DIR="$HOME/.local/node"
+export PATH="$NODE_DIR/bin:$PATH"
 
-COCKPIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # .../arc-cockpit
-REPO_DIR="$(cd "$COCKPIT_DIR/.." && pwd)"
-APP_USER=arc
-PUBLIC_IP="$(curl -fsS -H 'Metadata-Flavor: Google' http://169.254.169.254/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip 2>/dev/null || curl -fsS https://api.ipify.org)"
-DEFAULT_DOMAIN="${PUBLIC_IP//./-}.sslip.io"
+node_ok() { command -v node >/dev/null && [[ "$(node -p 'process.versions.node.split(".")[0]')" -ge 22 ]]; }
 
-echo "== ARC cockpit setup"
-echo "   repo:      $REPO_DIR"
-echo "   public IP: $PUBLIC_IP"
-read -rp "Domain for the cockpit [$DEFAULT_DOMAIN]: " DOMAIN
-DOMAIN="${DOMAIN:-$DEFAULT_DOMAIN}"
-read -rp "Email for the HTTPS certificate (Let's Encrypt expiry notices): " LE_EMAIL
-
-# ---------------------------------------------------------------- packages
-echo "== Installing packages"
-apt-get update -qq
-apt-get install -y -qq ca-certificates curl git nginx apache2-utils certbot python3-certbot-nginx >/dev/null
-if ! command -v node >/dev/null || [[ "$(node -p 'process.versions.node.split(".")[0]')" -lt 22 ]]; then
-  echo "== Installing Node.js 22"
-  curl -fsSL https://deb.nodesource.com/setup_22.x | bash - >/dev/null
-  apt-get install -y -qq nodejs >/dev/null
+# ---------------------------------------------------------------- Node.js 22 (in your home folder)
+if ! node_ok; then
+  case "$(uname -m)" in
+    x86_64) ARCH=x64 ;;
+    aarch64 | arm64) ARCH=arm64 ;;
+    *) echo "Unsupported CPU: $(uname -m)"; exit 1 ;;
+  esac
+  BASE=https://nodejs.org/dist/latest-v22.x
+  echo "== Installing Node.js 22 into $NODE_DIR"
+  LINE="$(curl -fsSL "$BASE/SHASUMS256.txt" | grep "linux-$ARCH.tar.gz\$")"
+  SUM="${LINE%% *}"; FILE="${LINE##* }"
+  TMP="$(mktemp -d)"
+  curl -fsSL -o "$TMP/$FILE" "$BASE/$FILE"
+  echo "$SUM  $TMP/$FILE" | sha256sum -c --quiet
+  rm -rf "$NODE_DIR" && mkdir -p "$NODE_DIR"
+  tar -xzf "$TMP/$FILE" -C "$NODE_DIR" --strip-components=1
+  rm -rf "$TMP"
+  grep -q '.local/node/bin' "$HOME/.profile" 2>/dev/null || echo 'export PATH="$HOME/.local/node/bin:$PATH"' >>"$HOME/.profile"
 fi
 echo "   node $(node -v), npm $(npm -v)"
 
-# ---------------------------------------------------------------- app user and files
-id "$APP_USER" >/dev/null 2>&1 || useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin "$APP_USER"
-chown -R "$APP_USER:$APP_USER" "$REPO_DIR"
-chmod 755 "$REPO_DIR" "$COCKPIT_DIR"
-git config --system --add safe.directory "$REPO_DIR" 2>/dev/null || true
-
-# ---------------------------------------------------------------- ERP settings (server/.env)
+# ---------------------------------------------------------------- settings (server/.env)
 ENV_FILE="$COCKPIT_DIR/server/.env"
 if [[ ! -f "$ENV_FILE" ]]; then
-  echo "== ERP connection (stored in server/.env, readable only by the service)"
+  echo "== ERP connection (saved in server/.env, readable only by you)"
   read -rp "Airgen ERP MCP URL [https://dynamic-cyan-raccoon.erp.airgen.ai/mcp]: " ERP_URL
   ERP_URL="${ERP_URL:-https://dynamic-cyan-raccoon.erp.airgen.ai/mcp}"
-  read -rsp "Airgen ERP API key (input hidden; use a read-only key): " ERP_TOKEN; echo
+  read -rsp "Airgen ERP API key (hidden; use a read-only key): " ERP_TOKEN; echo
+  read -rp "Port for the cockpit [8080]: " PORT
+  PORT="${PORT:-8080}"
+  umask 077
   cat >"$ENV_FILE" <<EOF
 DATA_SOURCE=airgen
 AGENTIC_ERP_URL=$ERP_URL
 AGENTIC_ERP_TOKEN=$ERP_TOKEN
 ERP_REFRESH_MINUTES=15
-PORT=4000
-HOST=127.0.0.1
+# 0.0.0.0 = reachable from other machines (a login is required then)
+HOST=0.0.0.0
+PORT=$PORT
 EOF
+  umask 022
 fi
-chown "$APP_USER:$APP_USER" "$ENV_FILE"
 chmod 600 "$ENV_FILE"
 
-# ---------------------------------------------------------------- install and build
-echo "== Installing dependencies and building the web app"
+# ---------------------------------------------------------------- install, test, build
+echo "== Installing dependencies, testing and building the web app"
 cd "$COCKPIT_DIR"
-sudo -u "$APP_USER" HOME=/tmp npm ci --no-audit --no-fund --loglevel=error
-sudo -u "$APP_USER" HOME=/tmp npm run build --workspace web --silent
-sudo -u "$APP_USER" HOME=/tmp npm test --silent >/dev/null && echo "   tests passed"
+npm ci --no-audit --no-fund --loglevel=error
+npm test --silent >/dev/null && echo "   tests passed"
+npm run build --workspace web --silent >/dev/null && echo "   web app built"
 
-# ---------------------------------------------------------------- systemd service
-echo "== Installing the service"
-sed -e "s#@COCKPIT_DIR@#$COCKPIT_DIR#g" -e "s#@APP_USER@#$APP_USER#g" \
-  "$COCKPIT_DIR/deploy/arc-cockpit.service" >/etc/systemd/system/arc-cockpit.service
-systemctl daemon-reload
-systemctl enable --quiet arc-cockpit
-systemctl restart arc-cockpit
-for i in {1..30}; do
-  curl -fsS http://127.0.0.1:4000/health >/dev/null 2>&1 && break
-  if ! systemctl is-active --quiet arc-cockpit; then
-    echo "!! The server stopped. Last log lines:"; journalctl -u arc-cockpit -n 30 --no-pager; exit 1
-  fi
-  sleep 2
-done
-curl -fsS http://127.0.0.1:4000/health >/dev/null || { echo "!! Server did not answer"; journalctl -u arc-cockpit -n 30 --no-pager; exit 1; }
-journalctl -u arc-cockpit -n 20 --no-pager | grep -E "\[erp\]|Source:" || true
-
-# ---------------------------------------------------------------- password
-HTPASSWD=/etc/nginx/arc-cockpit.htpasswd
-if [[ ! -s "$HTPASSWD" ]]; then
-  echo "== Cockpit login (everyone opening the cockpit must enter this)"
+# ---------------------------------------------------------------- login
+if [[ ! -s "$COCKPIT_DIR/server/users.txt" ]]; then
+  echo "== Cockpit login (everyone opening the cockpit needs it; add more later with deploy/cockpit.sh adduser <name>)"
   read -rp "Username: " WEB_USER
-  htpasswd -cB "$HTPASSWD" "$WEB_USER"
+  npm run user:add --workspace server --silent -- "$WEB_USER"
 fi
-chown root:www-data "$HTPASSWD"
-chmod 640 "$HTPASSWD"
 
-# ---------------------------------------------------------------- nginx
-echo "== Configuring nginx for $DOMAIN"
-sed -e "s#@DOMAIN@#$DOMAIN#g" -e "s#@COCKPIT_DIR@#$COCKPIT_DIR#g" \
-  "$COCKPIT_DIR/deploy/nginx-arc-cockpit.conf" >/etc/nginx/sites-available/arc-cockpit
-ln -sf /etc/nginx/sites-available/arc-cockpit /etc/nginx/sites-enabled/arc-cockpit
-rm -f /etc/nginx/sites-enabled/default
-nginx -t -q
-systemctl reload nginx
-
-# ---------------------------------------------------------------- HTTPS
-echo "== Getting an HTTPS certificate"
-if certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos -m "$LE_EMAIL" --redirect; then
-  URL="https://$DOMAIN"
+# ---------------------------------------------------------------- start, and start again after a reboot
+bash "$COCKPIT_DIR/deploy/cockpit.sh" restart
+if command -v crontab >/dev/null; then
+  LINE="@reboot /bin/bash $COCKPIT_DIR/deploy/cockpit.sh start"
+  { crontab -l 2>/dev/null | grep -v 'deploy/cockpit.sh' || true; echo "$LINE"; } | crontab -
+  echo "== Will start again automatically after a reboot (crontab)"
 else
-  URL="http://$DOMAIN"
-  echo "!! No certificate. Check that the VM allows HTTP and HTTPS traffic (GCP firewall) and that $DOMAIN points to $PUBLIC_IP, then run:"
-  echo "   sudo certbot --nginx -d $DOMAIN --redirect"
-  echo "   Until then the password travels unencrypted: do not share the link."
+  echo "!! crontab is not available: after a VM reboot, run: bash $COCKPIT_DIR/deploy/cockpit.sh start"
 fi
 
-echo
-echo "== Done. Cockpit: $URL"
-echo "   Logs:    sudo journalctl -u arc-cockpit -f"
-echo "   Update:  sudo bash $COCKPIT_DIR/deploy/update.sh"
+PORT="$(grep -E '^PORT=' "$ENV_FILE" | cut -d= -f2)"
+IP="$(curl -fsS -m 3 -H 'Metadata-Flavor: Google' http://169.254.169.254/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip 2>/dev/null || echo '<VM external IP>')"
+cat <<EOF
+
+== Done. The cockpit runs on port $PORT.
+   From your laptop now (no firewall change needed), open an SSH tunnel and browse to http://localhost:$PORT :
+       ssh -N -L $PORT:localhost:$PORT $USER@$IP
+   For a direct link (http://$IP:$PORT), a GCP firewall rule must allow TCP $PORT to this VM.
+   Manage:  bash $COCKPIT_DIR/deploy/cockpit.sh status|logs|restart|stop|adduser <name>
+   Update:  bash $COCKPIT_DIR/deploy/update.sh
+EOF
