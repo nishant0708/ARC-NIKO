@@ -21,6 +21,6 @@ export default defineConfig({
   server: {
     port: 5173,
     // In development the mock server runs on :4000. Point VITE_GRAPHQL_URL at Airgen to switch.
-    proxy: { '/graphql': 'http://localhost:4000' },
+    proxy: { '/graphql': 'http://127.0.0.1:4000' },
   },
 });

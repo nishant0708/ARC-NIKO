@@ -26,11 +26,13 @@ const yoga = createYoga({
 });
 
 const port = Number(process.env.PORT ?? 4000);
+// Loopback only by default: in production nginx is the only way in.
+const host = process.env.HOST ?? '127.0.0.1';
 initDataSource()
   .then(() => {
     const repo = repository();
-    createServer(yoga).listen(port, () => {
-      console.log(`ARC cockpit GraphQL server on http://localhost:${port}/graphql`);
+    createServer(yoga).listen(port, host, () => {
+      console.log(`ARC cockpit GraphQL server on http://${host}:${port}/graphql`);
       console.log(`Source: ${repo.source.label} · ${repo.opportunities.length} opportunities, ${repo.goals.length} goal rows, as of ${repo.config.asOf}`);
     });
   })

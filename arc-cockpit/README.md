@@ -65,6 +65,22 @@ npm run ui:add -- tooltip      # same as: npx shadcn@latest add tooltip
 
 Check new files for `lucide-react` imports before committing; replace any with `@radix-ui/react-icons`.
 
+## Deploy on a VM (Debian 12)
+
+nginx serves the built web app and passes `/graphql` to the Node server, which runs as a systemd service on `127.0.0.1:4000`. Everyone must log in (nginx password), and HTTPS comes from Let's Encrypt. Files are in `deploy/`.
+
+1. In GCP, allow HTTP and HTTPS traffic to the VM (VM → Edit → Firewalls).
+2. On the VM, clone the repo into `/opt` and run the setup script:
+   ```bash
+   sudo apt-get update && sudo apt-get install -y git
+   sudo git clone https://github.com/nishant0708/ARC-NIKO.git /opt/arc-niko
+   sudo bash /opt/arc-niko/arc-cockpit/deploy/setup.sh
+   ```
+   It asks for the domain (default `<ip>.sslip.io`, which needs no DNS setup), an email for the certificate, the ERP URL and key (saved to `server/.env`, readable only by the service) and a cockpit username and password.
+3. To deploy new code later: push to GitHub, then on the VM `sudo bash /opt/arc-niko/arc-cockpit/deploy/update.sh`.
+
+Logs: `sudo journalctl -u arc-cockpit -f`. Add a user: `sudo htpasswd -B /etc/nginx/arc-cockpit.htpasswd <name>`. Change the ERP key: edit `server/.env`, then `sudo systemctl restart arc-cockpit`.
+
 ## Structure (MVC)
 
 ```
