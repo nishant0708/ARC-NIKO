@@ -288,15 +288,25 @@ function lookup<T>(rows: Row[], keyFields: string[] = [], value: (r: Row) => T |
 
 /** A relation summary is read by its label; a bare id or code is looked up; anything else is taken as the name. */
 function resolve(v: unknown, map: Map<string, string>): string | null {
-  if (isObj(v) && typeof v.id === 'string' && map.has(v.id.toLowerCase())) return map.get(v.id.toLowerCase())!;
+  const id = referenceId(v);
+  if (id && map.has(id.toLowerCase())) return map.get(id.toLowerCase())!;
   const t = text(v);
   if (!t) return null;
   return map.get(t.toLowerCase()) ?? t;
 }
 
 function accountRef(v: unknown, map: Map<string, Row>): Row | null {
-  const id = isObj(v) && typeof v.id === 'string' ? v.id : text(v);
+  const id = referenceId(v) ?? text(v);
   return id ? (map.get(id.toLowerCase()) ?? null) : null;
+}
+
+/** Relation fields can be returned as records (`id`) or MCP record references (`recordId`). */
+function referenceId(v: unknown): string | null {
+  if (!isObj(v)) return null;
+  for (const key of ['id', 'recordId']) {
+    if (typeof v[key] === 'string' && v[key]) return v[key];
+  }
+  return null;
 }
 
 function unmapped(object: string, tool: string | null, rows: Row[], fields: Record<string, string[]>, important: string[]): string[] {

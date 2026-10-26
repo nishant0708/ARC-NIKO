@@ -21,7 +21,7 @@ const opportunities = Array.from({ length: 250 }, (_, i) => ({
   id: `uuid-${i}`,
   name: `2026-O-${String(i).padStart(5, '0')}`,
   opportunityId: `guid-${i}`,
-  accountId: `ACC-${i % 7}`,
+  accountId: i === 0 ? { recordId: 'acc-uuid-0', displayName: 'Account 0' } : `ACC-${i % 7}`,
   cmId: i % 2 ? 'CM-01' : 'CM-02',
   status: i % 3 === 0 ? 'WON' : i % 3 === 1 ? 'OPEN' : 'LOST',
   stage: 'Technical Proposal',
