@@ -5,7 +5,10 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
  * Set VITE_GRAPHQL_URL to the Airgen ERP GraphQL endpoint to switch data sources.
  */
 export const apolloClient = new ApolloClient({
-  link: new HttpLink({ uri: import.meta.env.VITE_GRAPHQL_URL ?? '/graphql' }),
+  link: new HttpLink({
+    uri: import.meta.env.VITE_GRAPHQL_URL
+      ?? `${import.meta.env.BASE_URL}graphql`,
+  }),
   cache: new InMemoryCache({
     typePolicies: {
       Opportunity: { keyFields: ['guid'] },

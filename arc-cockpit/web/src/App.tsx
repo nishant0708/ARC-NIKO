@@ -19,7 +19,7 @@ export function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <ThemeProvider>
-        <BrowserRouter>
+        <BrowserRouter   basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
           <DrillProvider>
             <Routes>
               <Route element={<AppShell />}>
